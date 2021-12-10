@@ -7,13 +7,13 @@ def original_m_core_over_m(h):
 	return (h.m_core/Msun)/h.star_mass
 
 def Ra_HI_getter(h):
-	return np.log10(h.HI_Ra) - 3
+	return np.log10(h.HI_Ra)
 def Ra_HeI_getter(h):
-	return np.log10(h.HeI_Ra) - 3
+	return np.log10(h.HeI_Ra)
 def Ra_HeII_getter(h):
-	return np.log10(h.HeII_Ra) - 3
+	return np.log10(h.HeII_Ra)
 def Ra_FeCZ_getter(h):
-	return np.log10(h.FeCZ_Ra) - 3
+	return np.log10(h.FeCZ_Ra)
 
 def Re_HI_getter(h):
 	return np.log10(h.HI_Re)

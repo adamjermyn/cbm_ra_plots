@@ -1,6 +1,7 @@
 import mesa_reader as mr
 import numpy as np
 from pylab import *
+from lowPr_highTa_onset import Ra_crit
 from math import log10, pi
 
 from scipy import interpolate
@@ -32,7 +33,7 @@ def tri_area(xs,ys):
   area = 0.5 * np.linalg.det(arr)
   return area
 
-def read_models(location,lis, period, z_getters, name, ann, extra_label):
+def read_models(location,lis, period, z_getters, Pr_getters, name, ann, extra_label):
     fig = plt.figure(figsize=(7,5))
     ax = plt.subplot(111)
 
@@ -64,14 +65,19 @@ def read_models(location,lis, period, z_getters, name, ann, extra_label):
       x.append(logt[zams:])
       y.append(logl[zams:])
       z.append([])
-      for z_getter in z_getters:
-        z[-1].append(z_getter(h)[zams:])
 
       # Correct for Taylor-number scaling
       viscous_times = viscous_times_getter(h)[zams:,:]
-      Ta = (viscous_times * omega)**2
-      for i in range(4):
-        z[-1][i] -= np.log10(1 + (Ta[:,i]/1e4)**(2./3))
+      Ta = (viscous_times * omega)**2 / 10000
+
+      for z_getter,Pr_getter,k in zip(*(z_getters,Pr_getters,range(4))):
+        z[-1].append(z_getter(h)[zams:])
+
+        Pr = Pr_getter(h)[zams:]
+
+        for i in range(len(Pr)):
+          print(Ta[i,k],Pr[i], Ra_crit(Ta[i,k],Pr[i]))
+          z[-1][-1][i] -= np.log10(Ra_crit(Ta[i,k], Pr[i]))
 
     for i in range(len(z)):
       z[i] = np.array(z[i])
@@ -126,15 +132,18 @@ def read_models(location,lis, period, z_getters, name, ann, extra_label):
     ax.set_ylim([3,5.5])   
     plt.savefig(FIGURES+name,bbox_inches='tight')
 
+Ra_getters = [Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter]
+Pr_getters = [Pr_HI_getter,Pr_HeI_getter,Pr_HeII_getter,Pr_FeCZ_getter]
+
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_33_sha_db8c' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,[Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter], 'no_cz_Z_Z_SMC_P_2.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
+read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_2.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_41_sha_0199' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,[Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter], 'no_cz_Z_Z_LMC_P_2.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
+read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_2.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_49_sha_1dcf' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,[Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter], 'no_cz_Z_0.01_P_2.pdf', r'$Z=0.01$', extra_label=None)
+read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_2.pdf', r'$Z=0.01$', extra_label=None)
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,[Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter], 'no_cz_Z_Z_MW_P_2.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
+read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_2.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
 

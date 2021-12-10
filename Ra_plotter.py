@@ -1,6 +1,7 @@
 import mesa_reader as mr
 import numpy as np
 from pylab import *
+from lowPr_highTa_onset import Ra_crit
 from math import log10, pi
 
 from scipy import interpolate
@@ -25,8 +26,7 @@ prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
 logell=r'$\log_{10}\, L$/L$_\odot$'
 
-# Use ell_sun to make Spectroscopic HRD, if needed
-ell_sun=(5777)**4.0/(274*100)  
+Ta = 0
 
 def tri_area(xs,ys):
   arr = np.ones((3,3))
@@ -35,7 +35,7 @@ def tri_area(xs,ys):
   area = 0.5 * np.linalg.det(arr)
   return area
 
-def read_models(location,lis, z_getter, name, ann, bar_label, cmap, extra_label):
+def read_models(location,lis, z_getter, Pr_getter, name, ann, bar_label, cmap, extra_label):
     fig = plt.figure(figsize=(7,5))
     ax = plt.subplot(111)
 
@@ -66,6 +66,10 @@ def read_models(location,lis, z_getter, name, ann, bar_label, cmap, extra_label)
       x.append(logt[zams:])
       y.append(logl[zams:])
       z.append(z_getter(h)[zams:])
+      Pr = Pr_getter(h)[zams:]
+
+      for i in range(len(Pr)):
+        z[-1][i] -= np.log10(Ra_crit(Ta, Pr[i]))
 
     x=array(list(flatten(x)))
     y=array(list(flatten(y)))
@@ -103,8 +107,6 @@ def read_models(location,lis, z_getter, name, ann, bar_label, cmap, extra_label)
       zams=find_zams(logl,loglh,model)
       tams=find_tams(center_h1,model)
       zams=find_h(0.001,center_h1,model)
-      ell = (10**logt)**4.0/(10**logg)
-      ell=np.log10(ell/ell_sun)  
       ax.plot(logt[zams:],logl[zams:],c='gray',alpha=1.0)
 
       if j == 12:
@@ -122,7 +124,7 @@ def read_models(location,lis, z_getter, name, ann, bar_label, cmap, extra_label)
 
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,Ra_HI_getter, 'HI_Ra_Z_Z_MW.pdf', 'HI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
-read_models(DIR,mods,Ra_HeI_getter, 'HeI_Ra_Z_Z_MW.pdf', 'HeI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
-read_models(DIR,mods,Ra_HeII_getter, 'HeII_Ra_Z_Z_MW.pdf', 'HeII', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
-read_models(DIR,mods,Ra_FeCZ_getter, 'FeCZ_Ra_Z_Z_MW.pdf', 'FeCZ', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,Ra_HI_getter, Pr_HI_getter, 'HI_Ra_Z_Z_MW.pdf', 'HI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,Ra_HeI_getter, Pr_HeI_getter, 'HeI_Ra_Z_Z_MW.pdf', 'HeI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,Ra_HeII_getter, Pr_HeII_getter, 'HeII_Ra_Z_Z_MW.pdf', 'HeII', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,Ra_FeCZ_getter, Pr_FeCZ_getter, 'FeCZ_Ra_Z_Z_MW.pdf', 'FeCZ', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
