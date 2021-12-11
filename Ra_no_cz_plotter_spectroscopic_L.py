@@ -66,7 +66,7 @@ def read_models(location,lis, z_getters, name, ann, extra_label):
       for z_getter,Pr_getter in zip(*(z_getters,Pr_getters)):
         z[-1].append(z_getter(h)[zams:])
 
-        Pr = Pr_getter(h)[zams:]
+        Pr = 10**Pr_getter(h)[zams:]
 
         for i in range(len(Pr)):
           z[-1][-1][i] -= np.log10(Ra_crit(Ta, Pr[i]))

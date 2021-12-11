@@ -34,7 +34,7 @@ def tri_area(xs,ys):
   return area
 
 def read_models(location,lis, period, z_getters, Pr_getters, name, ann, extra_label):
-    fig = plt.figure(figsize=(7,5))
+    fig = plt.figure(figsize=(6,6*(5./7)))
     ax = plt.subplot(111)
 
     numcols, numrows = 200,200
@@ -46,6 +46,7 @@ def read_models(location,lis, period, z_getters, Pr_getters, name, ann, extra_la
     x = []
     y = []
     z = []
+    zcs = [[],[],[]]
 
     for j in lis:
       h=mr.MesaData(location+str(j)+'/LOGS/history.data')
@@ -68,16 +69,16 @@ def read_models(location,lis, period, z_getters, Pr_getters, name, ann, extra_la
 
       # Correct for Taylor-number scaling
       viscous_times = viscous_times_getter(h)[zams:,:]
-      Ta = (viscous_times * omega)**2 / 10000
+      Ta = 4 * (viscous_times * omega)**2
 
       for z_getter,Pr_getter,k in zip(*(z_getters,Pr_getters,range(4))):
         z[-1].append(z_getter(h)[zams:])
 
-        Pr = Pr_getter(h)[zams:]
+        Pr = 10**Pr_getter(h)[zams:]
 
         for i in range(len(Pr)):
-          print(Ta[i,k],Pr[i], Ra_crit(Ta[i,k],Pr[i]))
           z[-1][-1][i] -= np.log10(Ra_crit(Ta[i,k], Pr[i]))
+          print(j,i,Pr,Ta[i,k],Ra_crit(Ta[i,k], Pr[i]))
 
     for i in range(len(z)):
       z[i] = np.array(z[i])
@@ -130,20 +131,62 @@ def read_models(location,lis, period, z_getters, Pr_getters, name, ann, extra_la
     ax.text(4.74,3.1,ann,ha='left',fontsize=18)
     ax.set_xlim([4.75,4.3])
     ax.set_ylim([3,5.5])   
+    ax.set_title(extra_label)
     plt.savefig(FIGURES+name,bbox_inches='tight')
+
 
 Ra_getters = [Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter]
 Pr_getters = [Pr_HI_getter,Pr_HeI_getter,Pr_HeII_getter,Pr_FeCZ_getter]
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_33_sha_db8c' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_2.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
+read_models(DIR,mods,2,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_2.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_41_sha_0199' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_2.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
+read_models(DIR,mods,2,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_2.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_49_sha_1dcf' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_2.pdf', r'$Z=0.01$', extra_label=None)
+read_models(DIR,mods,2,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_2.pdf', r'$Z=0.01$', extra_label=r'$P=2\,\mathrm{d}$')
 
 DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,20,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_2.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
+read_models(DIR,mods,2,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_2.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
+
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_33_sha_db8c' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,10,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_10.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_41_sha_0199' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,10,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_10.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_49_sha_1dcf' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,10,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_10.pdf', r'$Z=0.01$', extra_label=r'$P=10\,\mathrm{d}$')
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,10,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_10.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
+
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_33_sha_db8c' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,100,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_100.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_41_sha_0199' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,100,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_100.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_49_sha_1dcf' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,100,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_100.pdf', r'$Z=0.01$', extra_label=r'$P=100\,\mathrm{d}$')
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,100,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_100.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
+
+
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_33_sha_db8c' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_1000.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_41_sha_0199' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_1000.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_49_sha_1dcf' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_1000.pdf', r'$Z=0.01$', extra_label=r'$P=1000\,\mathrm{d}$')
+
+DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_1000.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
 

@@ -6,17 +6,18 @@ import matplotlib.pyplot as plt
 
 def ra_crit_overstability(x, pr, ta):
     """ eqn 222 in Chapter 3 of Chandrasekhar 1961 """
-    return 2 * (1 + pr) * (1 / x) * ( (1 + x)**3 + pr**2 * ta / (1 + pr)**2 )
+    return 2 * (1 + pr) * (1 / x) * ((1 + x)**3 + pr**2 * ta / (1 + pr)**2)
 
 def ra_crit_direct(x, ta):
     """ eqn 227 in Chapter 3 of Chandrasekhar 1961 """
-    return (1 / x) * ( (1 + x)**3 + ta )
+    return (1 / x) * ((1 + x)**3 + ta )
 
 def x_star(ta, pr):
     """ eqn 225 in Chapter 3 of Chandrasekhar 1961 """
     return (ta * (1 - pr) / (1 + pr))**(1/3) - 1
 
-def Ra_crit(Ta, Pr):
+def Ra_crit(Ta0, Pr):
+    Ta = Ta0 / np.pi**4
     Nx  = 200
     x_grid  = np.logspace(-2, 2, Nx)
     current_ra_crits = np.zeros(Nx)

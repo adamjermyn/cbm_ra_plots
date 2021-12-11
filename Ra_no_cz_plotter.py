@@ -67,14 +67,15 @@ def read_models(location,lis, z_getters, Pr_getters, name, ann, extra_label):
       for z_getter,Pr_getter in zip(*(z_getters,Pr_getters)):
         z[-1].append(z_getter(h)[zams:])
 
-        Pr = Pr_getter(h)[zams:]
+        Pr = 10**Pr_getter(h)[zams:]
 
         for i in range(len(Pr)):
           z[-1][-1][i] -= np.log10(Ra_crit(Ta, Pr[i]))
-
+          print(j,i,Pr,Ra_crit(Ta, Pr[i]))
 
     for i in range(len(z)):
       z[i] = np.array(z[i])
+      z[i][np.isnan(z[i])] = -np.inf
       z[i] = np.amax(z[i], axis=0)
       z[i][z[i] > 0] = np.nan
       z[i][z[i] < 0] = 1
