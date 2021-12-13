@@ -16,8 +16,8 @@ from functions import *
 from getters import *
 
 mods = [7.0,7.5,8.0,8.5,9.0,9.5,10,10.5,11,11.5,12,14,16,18,20,21,22,23,24,25,26,27,28,29,30,32,35,37,40]
-hrdlines = [8.0,9.0,12,16,20,25,30,40]
-Ta = 0
+hrdlines = [7.0,8.0,9.0,12,16,20,25,30,40]
+Ta = 10
 
 # Data Location
 FIGURES='./figures/' # Place to save plots
@@ -26,6 +26,8 @@ prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
 # STRINGS
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
 logell=r'$\log_{10}\, L$/L$_\odot$'
+
+Ta = 1e5
 
 def tri_area(xs,ys):
   arr = np.ones((3,3))
@@ -71,7 +73,6 @@ def read_models(location,lis, z_getters, Pr_getters, name, ann, extra_label):
 
         for i in range(len(Pr)):
           z[-1][-1][i] -= np.log10(Ra_crit(Ta, Pr[i]))
-          print(j,i,Pr,Ra_crit(Ta, Pr[i]))
 
     for i in range(len(z)):
       z[i] = np.array(z[i])

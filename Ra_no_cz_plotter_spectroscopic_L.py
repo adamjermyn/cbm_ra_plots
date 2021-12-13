@@ -16,7 +16,7 @@ from functions import *
 from getters import *
 
 mods = [7.0,7.5,8.0,8.5,9.0,9.5,10,10.5,11,11.5,12,14,16,18,20,21,22,23,24,25,26,27,28,29,30,32,35,37,40]
-hrdlines = [8.0,9.0,12,16,20,25,30,40]
+hrdlines = [7.0,8.0,9.0,12,16,20,25,30,40]
 
 # Data Location
 FIGURES='./figures/' # Place to save plots
@@ -26,6 +26,8 @@ prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
 logell=r'$\log_{10}\, \mathscr{L}/\mathscr{L}_\odot$'
 
+Ta = 1e5
+
 def tri_area(xs,ys):
   arr = np.ones((3,3))
   arr[0] = xs
@@ -33,7 +35,7 @@ def tri_area(xs,ys):
   area = 0.5 * np.linalg.det(arr)
   return area
 
-def read_models(location,lis, z_getters, name, ann, extra_label):
+def read_models(location,lis, z_getters, Pr_getters, name, ann, extra_label):
     fig = plt.figure(figsize=(7,5))
     ax = plt.subplot(111)
 
@@ -118,9 +120,9 @@ def read_models(location,lis, z_getters, name, ann, extra_label):
                 
     ax.set_xlabel(logteff)
     ax.set_ylabel(logell)
-    ax.text(4.74,2.45,ann,ha='left',fontsize=18)
+    ax.text(4.74,2.35,ann,ha='left',fontsize=18)
     ax.set_xlim([4.75,4.3])
-    ax.set_ylim([2.4,4])   
+    ax.set_ylim([2.3,4])   
     plt.savefig(FIGURES+name,bbox_inches='tight')
 
 Ra_getters = [Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter]

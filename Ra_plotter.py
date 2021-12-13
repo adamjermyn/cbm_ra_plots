@@ -26,7 +26,7 @@ prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
 logell=r'$\log_{10}\, L$/L$_\odot$'
 
-Ta = 0
+Ta = 1e5
 
 def tri_area(xs,ys):
   arr = np.ones((3,3))
