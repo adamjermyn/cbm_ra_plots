@@ -17,17 +17,17 @@ from getters import *
 
 mods = [1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.2,2.4,2.6,2.8,3.0,3.2,3.4,3.6,3.8,4.0,4.2,4.4,4.6,4.8,5.0,5.2,5.4,5.6,5.8,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10,10.5,11,11.5,12,14,16,18,20,21,22,23,24,25,26,27,28,29,30,32,35,37,40,42,45,47,50,52,55,57,60]
 prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
-DIR = prefix + 'main_Z_time_2021_12_08_13_30_07_sha_2c98' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2021_12_14_13_00_27_sha_db89' + '/runs/' # The directory where you unpacked the data
 FIGURES='./figures/' # Place to save plots
 colors = [np.array(( 27,158,119, 255))/255,np.array((217, 95,  2, 255))/255,np.array((117,112,179, 255))/255]
 
 def fit(m):
-	a = 9.43127
-	b = 1.43257
-	c = 1.65358
-	d = 7.40336
-	e = 10.5241
-	return np.sqrt(m-1.1)*(a + b*m**2 + c*m**3) / (d + e*m**3)
+	a = 5.33591
+	b = -0.823889
+	c = 0.316251
+	d = 0.152144
+	e = -0.710093
+	return np.sqrt(m-1.1)*np.tanh(m-1.1)*(a + b*m**2 + c*m**3+d*m**4) / (e + m**4)
 
 def read_models(location,lis, z_getter, name, label):
 	fig = plt.figure(figsize=(7,5))
@@ -83,6 +83,8 @@ def read_models(location,lis, z_getter, name, label):
 	axes[1].legend()
 	axes[1].set_xlabel(r'$M/M_\odot$')
 	axes[1].set_xlim([3,60])
+
+	print(zm)
 
 	# Remove inner tick labels
 	axes[1].set_yticklabels([])

@@ -26,8 +26,6 @@ prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
 logell=r'$\log_{10}\, L$/L$_\odot$'
 
-Ta = 1e5
-
 def tri_area(xs,ys):
   arr = np.ones((3,3))
   arr[0] = xs
@@ -35,13 +33,15 @@ def tri_area(xs,ys):
   area = 0.5 * np.linalg.det(arr)
   return area
 
-def read_models(location,lis, z_getter, Pr_getter, name, ann, bar_label, cmap, extra_label):
-    fig = plt.figure(figsize=(7,5))
+def read_models(location,lis, period, z_getter, Pr_getters, viscous_index, name, ann, bar_label, cmap, extra_label):
+    fig = plt.figure(figsize=(6,6*(5./7)))
     ax = plt.subplot(111)
 
     numcols, numrows = 200,200
 
     plt.gca().invert_xaxis()    
+
+    omega = 2 * np.pi / (24 * 3600 * period) # Convert period in days to Omega in rad/s 
 
     x = []
     y = []
@@ -68,8 +68,11 @@ def read_models(location,lis, z_getter, Pr_getter, name, ann, bar_label, cmap, e
       z.append(z_getter(h)[zams:])
       Pr = 10**Pr_getter(h)[zams:]
 
+      viscous_times = viscous_times_getter(h)[zams:,viscous_index]
+      Ta = 4 * (viscous_times * omega)**2
+
       for i in range(len(Pr)):
-        z[-1][i] -= np.log10(Ra_crit(Ta, Pr[i]))
+        z[-1][i] -= np.log10(Ra_crit(Ta[i], Pr[i]))
 
     x=array(list(flatten(x)))
     y=array(list(flatten(y)))
@@ -91,7 +94,7 @@ def read_models(location,lis, z_getter, Pr_getter, name, ann, bar_label, cmap, e
     cbar = fig.colorbar(cntr1, ax=ax)
     cbar.ax.set_ylabel(bar_label)
     ls = list(cbar.ax.get_yticks())
-    cbar.ax.set_yticklabels(['{:.2f}'.format(x) for x in ls])
+    cbar.ax.set_yticklabels(['{:.0f}'.format(x) for x in ls])
 
     dt = 0.07
     dl = -0.09
@@ -118,13 +121,13 @@ def read_models(location,lis, z_getter, Pr_getter, name, ann, bar_label, cmap, e
     ax.set_xlabel(logteff)
     ax.set_ylabel(logell)
     ax.text(3.8,5.5,ann,ha='center',fontsize=18)
-    ax.set_xlim([4.83,3.7])
+    ax.set_xlim([4.87,3.7])
     ax.set_ylim([0,6.1])   
     plt.savefig(FIGURES+name,bbox_inches='tight')
 
 
-DIR = prefix + 'main_Z_time_2021_12_09_17_42_58_sha_dab3' + '/runs/' # The directory where you unpacked the data
-read_models(DIR,mods,Ra_HI_getter, Pr_HI_getter, 'HI_Ra_Z_Z_MW.pdf', 'HI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
-read_models(DIR,mods,Ra_HeI_getter, Pr_HeI_getter, 'HeI_Ra_Z_Z_MW.pdf', 'HeI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
-read_models(DIR,mods,Ra_HeII_getter, Pr_HeII_getter, 'HeII_Ra_Z_Z_MW.pdf', 'HeII', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
-read_models(DIR,mods,Ra_FeCZ_getter, Pr_FeCZ_getter, 'FeCZ_Ra_Z_Z_MW.pdf', 'FeCZ', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+DIR = prefix + 'main_Z_time_2021_12_14_13_00_27_sha_db89' + '/runs/' # The directory where you unpacked the data
+read_models(DIR,mods,1000,Ra_HI_getter, Pr_HI_getter, 0, 'HI_Ra_Z_Z_MW_P_1000.pdf', 'HI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,1000,Ra_HeI_getter, Pr_HeI_getter, 1, 'HeI_Ra_Z_Z_MW_P_1000.pdf', 'HeI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,1000,Ra_HeII_getter, Pr_HeII_getter, 2, 'HeII_Ra_Z_Z_MW_P_1000.pdf', 'HeII', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
+read_models(DIR,mods,1000,Ra_FeCZ_getter, Pr_FeCZ_getter, 3, 'FeCZ_Ra_Z_Z_MW_P_1000.pdf', 'FeCZ', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)

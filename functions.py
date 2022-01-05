@@ -1,3 +1,13 @@
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
+
+def tri_area(xs,ys):
+  arr = np.ones((3,3))
+  arr[0] = xs
+  arr[1] = ys
+  area = 0.5 * np.linalg.det(arr)
+  return area
+
 def find_zams(logl,loglh,model):
     zams=1
     while (loglh[zams] < 1.0*logl[zams]): 
@@ -72,3 +82,23 @@ def find_frac_ms(model,star_age,zams,tams,frac):
     while ((star_age[frac_ms] - star_age[zams]) < age_frac_ms): 
      frac_ms=frac_ms+1
     return frac_ms;   
+
+
+
+def CustomCmap(from_rgb,to_rgb):
+
+    # from color r,g,b
+    r1,g1,b1 = from_rgb
+
+    # to color r,g,b
+    r2,g2,b2 = to_rgb
+
+    cdict = {'red': ((0, r1, r1),
+                   (1, r2, r2)),
+           'green': ((0, g1, g1),
+                    (1, g2, g2)),
+           'blue': ((0, b1, b1),
+                   (1, b2, b2))}
+
+    cmap = LinearSegmentedColormap('custom_cmap', cdict)
+    return cmap
