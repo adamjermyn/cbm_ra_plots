@@ -124,7 +124,7 @@ def read_models(location,lis, period, z_getters, Pr_getters, name, ann, extra_la
     ax.text(4.74,3.1,ann,ha='left',fontsize=18)
     ax.set_xlim([4.75,4.3])
     ax.set_ylim([3,5.5])   
-    ax.set_title(extra_label)
+#    ax.set_title(extra_label)
     plt.savefig(FIGURES+name,bbox_inches='tight')
 
 

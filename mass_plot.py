@@ -17,9 +17,9 @@ from getters import *
 
 mods = [1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.2,2.4,2.6,2.8,3.0,3.2,3.4,3.6,3.8,4.0,4.2,4.4,4.6,4.8,5.0,5.2,5.4,5.6,5.8,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10,10.5,11,11.5,12,14,16,18,20,21,22,23,24,25,26,27,28,29,30,32,35,37,40,42,45,47,50,52,55,57,60]
 prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
-DIR = prefix + 'main_Z_time_2021_12_14_13_00_27_sha_db89' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_MW_time_2022_01_07_15_39_00_sha_5262' + '/runs/' # The directory where you unpacked the data
 FIGURES='./figures/' # Place to save plots
-colors = [np.array(( 27,158,119, 255))/255,np.array((217, 95,  2, 255))/255,np.array((117,112,179, 255))/255]
+colors = [np.array(( 27,158,119, 255))/255,np.array((217, 95,  2, 255))/255,np.array((117,112,179, 255))/255,np.array((0,50,0, 100))/255,np.array((50,0,0, 100))/255]
 
 def read_models(location,lis, z_getter, z_getter2, name, label):
 	fig = plt.figure(figsize=(7,5))
@@ -74,6 +74,8 @@ def read_models(location,lis, z_getter, z_getter2, name, label):
 	axes[0].set_xlabel(r'$M/M_\odot$')
 	axes[0].set_ylabel(label)
 	axes[0].set_xlim([1,3])
+	axes[0].axhline(0.1,label=r'$\alpha_{\rm ov} = 0.1$', color=colors[3])
+	axes[0].axhline(0.25,label=r'$\alpha_{\rm ov} = 0.1$', color=colors[4])
 	axes[0].legend()
 	axes[1].plot(lis, zz, color=colors[0], label='ZAMS ($X_c=0.72$)')
 	axes[1].plot(lis, zm, color=colors[1], label='mid-MS ($X_c = 0.36$)')
@@ -81,6 +83,8 @@ def read_models(location,lis, z_getter, z_getter2, name, label):
 	axes[1].plot(lis, zzn, linestyle=':', color=colors[0])
 	axes[1].plot(lis, zmn, linestyle=':', color=colors[1])
 	axes[1].plot(lis, ztn, linestyle=':', color=colors[2])
+	axes[1].axhline(0.1,label=r'$\alpha_{\rm ov} = 0.1$', color=colors[3])
+	axes[1].axhline(0.25,label=r'$\alpha_{\rm ov} = 0.1$', color=colors[4])
 	axes[1].set_xlabel(r'$M/M_\odot$')
 	axes[1].set_xlim([3,60])
 

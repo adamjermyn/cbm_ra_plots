@@ -20,7 +20,7 @@ hrdlines = [1.5,2.0,2.4,3.0,4.0,5.0,6.0,7.0,9.0,12,20,30,40,60]
 # Data Location
 FIGURES='./figures/' # Place to save plots
 prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
-DIR = prefix + 'main_Z_time_2021_12_14_13_00_27_sha_db89' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_MW_time_2022_01_07_15_39_00_sha_5262' + '/runs/' # The directory where you unpacked the data
 
 # STRINGS
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
@@ -72,12 +72,13 @@ def read_models(location,lis, z_getter, name, bar_label, cmap, extra_label):
     y=array(list(flatten(y)))
     z=array(list(flatten(z)))
 
+    levels = 8
     if name == 'dlnm_core_one_panel.pdf':
-      z[z > 0.6] = np.nan
+      z[z > 0.3] = np.nan
+      levels = 6
     if name == 'dlnr_core_one_panel.pdf':
-      z[z > 0.4] = np.nan
-    if name == 'Ra.pdf':
-      z[z < 0] = np.nan
+      z[z > 0.12] = np.nan
+      levels = 4
 
     xi = np.linspace(x.min(), x.max(), numcols)
     yi = np.linspace(y.min(), y.max(), numrows)
@@ -90,8 +91,8 @@ def read_models(location,lis, z_getter, name, bar_label, cmap, extra_label):
     Xi, Yi = np.meshgrid(xi, yi)
     zi = interpolator(Xi, Yi)
 
-    ax.contour(xi, yi, zi, 8, colors='k')    
-    cntr1 = ax.contourf(xi, yi, zi, 8, cmap=cmap)
+    ax.contour(xi, yi, zi, levels, colors='k')    
+    cntr1 = ax.contourf(xi, yi, zi, levels, cmap=cmap)
     cbar = fig.colorbar(cntr1, ax=ax)
     cbar.ax.set_ylabel(bar_label)
     ls = list(cbar.ax.get_yticks())
@@ -129,32 +130,13 @@ def read_models(location,lis, z_getter, name, bar_label, cmap, extra_label):
     plt.savefig(FIGURES+name,bbox_inches='tight')
 
 
+read_models(DIR,mods,dlnm_core_getter, 'dlnm_core_one_panel.pdf', r'$\Delta M_{\mathrm{core}}/M_{\mathrm{core}}$', cmap='BuPu', extra_label=None)
+exit()
+
+read_models(DIR,mods,num_core_scale_heights, 'num_core_scale_heights.pdf', r'$\ln \rho_{\rm center}/\rho_{\rm core,top}$', cmap='viridis', extra_label=None)
+read_models(DIR,mods,rcore_div_h_getter, 'r_core_div_h.pdf', r'$ R_{\mathrm{core}}/h$', cmap='viridis', extra_label=None)
+read_models(DIR,mods,dlnr_core_getter, 'dlnr_core_one_panel.pdf', r'$\Delta R_{\mathrm{core}}/R_{\mathrm{core}}$', cmap='YlGnBu', extra_label=None)
 read_models(DIR,mods,original_m_core_over_m,'original_m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='RdPu',extra_label=None)
 read_models(DIR,mods,m_core_over_m,'m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='RdPu',extra_label=None)
 read_models(DIR,mods,dr_core_div_h_getter, 'dr_core_div_h_core_one_panel.pdf', r'$\alpha_{\rm ov} = \Delta R_{\mathrm{core}}/h$', cmap='YlOrRd', extra_label=None)
-read_models(DIR,mods,dlnm_core_getter, 'dlnm_core_one_panel.pdf', r'$\Delta M_{\mathrm{core}}/M_{\mathrm{core}}$', cmap='BuPu', extra_label=None)
-read_models(DIR,mods,dlnr_core_getter, 'dlnr_core_one_panel.pdf', r'$\Delta R_{\mathrm{core}}/R_{\mathrm{core}}$', cmap='YlGnBu', extra_label=None)
-
-exit()
-
-
-read_models(DIR,mods,Re_HI_getter, 'HI_Re.pdf', r'HI $\log\mathrm{Re}$', cmap='YlGnBu', extra_label=None)
-read_models(DIR,mods,Pr_HI_getter, 'HI_Pr.pdf', r'HI $\log\mathrm{Pr}$', cmap='BuPu', extra_label=None)
-
-read_models(DIR,mods,Re_HeI_getter, 'HeI_Re.pdf', r'HeI $\log\mathrm{Re}$', cmap='YlGnBu', extra_label=None)
-read_models(DIR,mods,Pr_HeI_getter, 'HeI_Pr.pdf', r'HeI $\log\mathrm{Pr}$', cmap='BuPu', extra_label=None)
-
-read_models(DIR,mods,Re_HeII_getter, 'HeII_Re.pdf', r'HeII $\log\mathrm{Re}$', cmap='YlGnBu', extra_label=None)
-read_models(DIR,mods,Pr_HeII_getter, 'HeII_Pr.pdf', r'HeII $\log\mathrm{Pr}$', cmap='BuPu', extra_label=None)
-
-read_models(DIR,mods,Re_FeCZ_getter, 'FeCZ_Re.pdf', r'FeCZ $\log\mathrm{Re}$', cmap='YlGnBu', extra_label=None)
-read_models(DIR,mods,Pr_FeCZ_getter, 'FeCZ_Pr.pdf', r'FeCZ $\log\mathrm{Pr}$', cmap='BuPu', extra_label=None)
-
-
-
-
-read_models(DIR,mods,Ra_getter, 'Ra.pdf', r'$\log\mathrm{Ra}$', cmap='YlOrRd', extra_label=None)
-read_models(DIR,mods,Re_getter, 'Re.pdf', r'$\log\mathrm{Re}$', cmap='YlGnBu', extra_label=None)
-read_models(DIR,mods,Pr_getter, 'Pr.pdf', r'$\log\mathrm{Pr}$', cmap='BuPu', extra_label=None)
-
 

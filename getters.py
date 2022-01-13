@@ -52,6 +52,9 @@ def Pr_getter(h):
 def mdot_getter(h):
 	return h.Mdot
 
+def num_core_scale_heights(h):
+	return np.log(10**h.log_center_Rho/h.rho_core_top)
+
 def dlnm_core_getter(h):
 	return h.dm_core*Msun/h.m_core
 
@@ -60,6 +63,9 @@ def dr_core_div_h_getter(h):
 
 def dlnr_core_getter(h):
 	return h.dr_core/h.r_core
+
+def rcore_div_h_getter(h):
+	return h.r_core/h.hp_core_top
 
 def m_core_over_m(h):
 	return (h.m_core/Msun + h.dm_core)/h.star_mass
