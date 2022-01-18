@@ -53,7 +53,7 @@ axes[2][0].plot(np.log10(p1.temperature), np.log10(p1.alpha)-10, label=r'$\log \
 [axes[2][0].axvspan(np.log10(p1.temperature[bounds1[2*i]]), np.log10(p1.temperature[bounds1[2*i+1]]), alpha=0.3) for i in range(len(bounds1)//2)]
 axes[2][0].legend(loc='upper left')
 
-axes[0][0].set_title(r'$2.4M_\odot,\, X=0.36$')
+axes[0][0].set_title(r'$2.4M_\odot,\, \log L = 1.7, \log\, T_{\rm eff} = 4.0$')
 axes[2][0].set_xlabel(r'$\log\, T/\mathrm{K}$')
 axes[0][0].set_xlim([5.45,round(min(np.log10(p1.temperature)),2)])
 axes[0][0].set_ylim([0.05,0.45])
@@ -79,7 +79,7 @@ axes[2][1].plot(np.log10(p2.temperature), np.log10(p2.nu), label=r'$\log \nu/\ma
 axes[2][1].plot(np.log10(p2.temperature), np.log10(p2.alpha)-10, label=r'$\log \alpha/10^{10}\mathrm{cm^2\,s^{-1}}$')
 [axes[2][1].axvspan(np.log10(p2.temperature[bounds2[2*i]]), np.log10(p2.temperature[bounds2[2*i+1]]), alpha=0.3) for i in range(len(bounds2)//2)]
 
-axes[0][1].set_title(r'$9M_\odot,\, X=0.36$')
+axes[0][1].set_title(r'$9M_\odot,\, \log L = 3.8, \log\, T_{\rm eff} = 4.3$')
 axes[2][1].set_xlabel(r'$\log\, T/\mathrm{K}$')
 axes[0][1].set_xlim([5.45,min(np.log10(p2.temperature))])
 axes[0][1].set_ylim([0.05,0.45])
