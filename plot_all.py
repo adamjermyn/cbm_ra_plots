@@ -73,11 +73,15 @@ def read_models(location,lis, z_getter, name, bar_label, cmap, extra_label):
     z=array(list(flatten(z)))
 
     levels = 8
+    vmin = None
+    vmax = None
     if name == 'dlnm_core_one_panel.pdf':
-      z[z > 0.3] = np.nan
+      vmin = 0.08
+      vmax = 0.2
       levels = 6
     if name == 'dlnr_core_one_panel.pdf':
-      z[z > 0.12] = np.nan
+      vmin = 0
+      vmax = 0.12
       levels = 4
 
     xi = np.linspace(x.min(), x.max(), numcols)
@@ -91,9 +95,9 @@ def read_models(location,lis, z_getter, name, bar_label, cmap, extra_label):
     Xi, Yi = np.meshgrid(xi, yi)
     zi = interpolator(Xi, Yi)
 
-    ax.contour(xi, yi, zi, levels, colors='k')    
-    cntr1 = ax.contourf(xi, yi, zi, levels, cmap=cmap)
-    cbar = fig.colorbar(cntr1, ax=ax)
+    ax.contour(xi, yi, zi, levels, colors='k', vmin=vmin, vmax=vmax, linewidths=0.1, extend='both') 
+    cntr1 = ax.contourf(xi, yi, zi, levels, cmap=cmap, vmin=vmin, vmax=vmax, linewidths=0.1, extend='both')
+    cbar = fig.colorbar(cntr1, ax=ax, extend='both')
     cbar.ax.set_ylabel(bar_label)
     ls = list(cbar.ax.get_yticks())
     cbar.ax.set_yticklabels(['{:.2f}'.format(x) for x in ls])
@@ -131,12 +135,10 @@ def read_models(location,lis, z_getter, name, bar_label, cmap, extra_label):
 
 
 read_models(DIR,mods,dlnm_core_getter, 'dlnm_core_one_panel.pdf', r'$\Delta M_{\mathrm{core}}/M_{\mathrm{core}}$', cmap='BuPu', extra_label=None)
-exit()
-
 read_models(DIR,mods,num_core_scale_heights, 'num_core_scale_heights.pdf', r'$\ln \rho_{\rm center}/\rho_{\rm core,top}$', cmap='viridis', extra_label=None)
 read_models(DIR,mods,rcore_div_h_getter, 'r_core_div_h.pdf', r'$ R_{\mathrm{core}}/h$', cmap='viridis', extra_label=None)
 read_models(DIR,mods,dlnr_core_getter, 'dlnr_core_one_panel.pdf', r'$\Delta R_{\mathrm{core}}/R_{\mathrm{core}}$', cmap='YlGnBu', extra_label=None)
-read_models(DIR,mods,original_m_core_over_m,'original_m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='RdPu',extra_label=None)
-read_models(DIR,mods,m_core_over_m,'m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='RdPu',extra_label=None)
+read_models(DIR,mods,original_m_core_over_m,'original_m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='plasma',extra_label=None)
+read_models(DIR,mods,m_core_over_m,'m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='magma',extra_label=None)
 read_models(DIR,mods,dr_core_div_h_getter, 'dr_core_div_h_core_one_panel.pdf', r'$\alpha_{\rm ov} = \Delta R_{\mathrm{core}}/h$', cmap='YlOrRd', extra_label=None)
 

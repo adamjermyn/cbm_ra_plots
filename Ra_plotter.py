@@ -126,7 +126,7 @@ def read_models(location,lis, period, z_getter, Pr_getters, viscous_index, name,
     plt.savefig(FIGURES+name,bbox_inches='tight')
 
 
-DIR = prefix + 'main_Z_time_2021_12_14_13_00_27_sha_db89' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2022_01_18_13_56_19_sha_f7ec' + '/runs/' # The directory where you unpacked the data
 read_models(DIR,mods,1000,Ra_HI_getter, Pr_HI_getter, 0, 'HI_Ra_Z_Z_MW_P_1000.pdf', 'HI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
 read_models(DIR,mods,1000,Ra_HeI_getter, Pr_HeI_getter, 1, 'HeI_Ra_Z_Z_MW_P_1000.pdf', 'HeI', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)
 read_models(DIR,mods,1000,Ra_HeII_getter, Pr_HeII_getter, 2, 'HeII_Ra_Z_Z_MW_P_1000.pdf', 'HeII', r'$\log\mathrm{Ra}/\mathrm{Ra}_{\rm crit}$', cmap='PiYG', extra_label=None)

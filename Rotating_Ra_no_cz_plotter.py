@@ -132,18 +132,19 @@ Ra_getters = [Ra_HI_getter,Ra_HeI_getter,Ra_HeII_getter,Ra_FeCZ_getter]
 Pr_getters = [Pr_HI_getter,Pr_HeI_getter,Pr_HeII_getter,Pr_FeCZ_getter]
 
 
-DIR = prefix + 'main_Z_time_2021_12_14_12_59_57_sha_3d07' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2022_01_18_13_56_00_sha_ef8c' + '/runs/' # The directory where you unpacked the data
 read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_1000.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
 
-DIR = prefix + 'main_Z_time_2021_12_14_13_00_09_sha_5afc' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2022_01_18_13_56_06_sha_adbd' + '/runs/' # The directory where you unpacked the data
 read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_Z_LMC_P_1000.pdf', r'$Z=Z_{\rm LMC}=0.006$', extra_label=None)
 
-DIR = prefix + 'main_Z_time_2021_12_14_13_00_18_sha_c740' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2022_01_18_13_56_13_sha_e814' + '/runs/' # The directory where you unpacked the data
 read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_0.01_P_1000.pdf', r'$Z=0.01$', extra_label=r'$P=1000\,\mathrm{d}$')
 
-DIR = prefix + 'main_Z_time_2021_12_14_13_00_27_sha_db89' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2022_01_18_13_56_19_sha_f7ec' + '/runs/' # The directory where you unpacked the data
 read_models(DIR,mods,1000,Ra_getters,Pr_getters, 'no_cz_Z_Z_MW_P_1000.pdf', r'$Z=Z_{\rm MW}=0.014$', extra_label=None)
 
+exit()
 
 DIR = prefix + 'main_Z_time_2021_12_14_12_59_57_sha_3d07' + '/runs/' # The directory where you unpacked the data
 read_models(DIR,mods,2,Ra_getters,Pr_getters, 'no_cz_Z_Z_SMC_P_2.pdf', r'$Z=Z_{\rm SMC}=0.002$', extra_label=None)
