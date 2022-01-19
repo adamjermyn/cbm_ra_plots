@@ -4,6 +4,11 @@ paper.pdf
 paper.bbl
 paper.blg
 
+# MESA
+*.data
+output/
+figures/
+
 # Text editors
 *~
 
