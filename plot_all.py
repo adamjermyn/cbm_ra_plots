@@ -139,6 +139,6 @@ read_models(DIR,mods,num_core_scale_heights, 'num_core_scale_heights.pdf', r'$\l
 read_models(DIR,mods,rcore_div_h_getter, 'r_core_div_h.pdf', r'$ R_{\mathrm{core}}/h$', cmap='viridis', extra_label=None)
 read_models(DIR,mods,dlnr_core_getter, 'dlnr_core_one_panel.pdf', r'$\Delta R_{\mathrm{core}}/R_{\mathrm{core}}$', cmap='YlGnBu', extra_label=None)
 read_models(DIR,mods,original_m_core_over_m,'original_m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='plasma_r',extra_label=None)
-read_models(DIR,mods,m_core_over_m,'m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='magma',extra_label=None)
+read_models(DIR,mods,m_core_over_m,'m_core_over_m.pdf',r'$M_{\mathrm{core}}/M_\star$',cmap='magma_r',extra_label=None)
 read_models(DIR,mods,dr_core_div_h_getter, 'dr_core_div_h_core_one_panel.pdf', r'$\alpha_{\rm ov} = \Delta R_{\mathrm{core}}/h$', cmap='YlOrRd', extra_label=None)
 
