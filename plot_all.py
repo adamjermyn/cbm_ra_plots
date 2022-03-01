@@ -20,7 +20,7 @@ hrdlines = [1.5,2.0,2.4,3.0,4.0,5.0,6.0,7.0,9.0,12,20,30,40,60]
 # Data Location
 FIGURES='./figures/' # Place to save plots
 prefix = '/Users/ajermyn/Dropbox/Active_Projects/CBM_trends/output/runs/'
-DIR = prefix + 'main_Z_MW_time_2022_01_07_15_39_00_sha_5262' + '/runs/' # The directory where you unpacked the data
+DIR = prefix + 'main_Z_time_2022_01_18_13_56_19_sha_f7ec' + '/runs/' # The directory where you unpacked the data
 
 # STRINGS
 logteff=r'$\log_{10}\, T_{\rm eff}$/K'
